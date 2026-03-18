@@ -1,21 +1,388 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <title>我的第一個網頁</title>
-    <style>
-        h1 {
-            color: blue;
-            font-size: 24px;
-        }
-        a {
-            color: red;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>劉耀鍵的個人網頁</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', Arial, sans-serif;
+      background-color: #fdf6e3;
+      color: #3e3a36;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: #f5e6d3;
+      padding: 60px 10px 30px 10px;
+      text-align: center;
+      border-bottom: 1px solid #e0d4c3;
+      position: relative;
+    }
+
+    /* 右上角導覽列 + 語言切換按鈕 */
+    .top-nav {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      transition: background-color 0.3s ease, padding 0.3s ease;
+    }
+
+    .top-nav a {
+      color: #a56a46;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px dashed #a56a46;
+      transition: all 0.2s ease;
+    }
+
+    .top-nav a:hover {
+      color: #d28c6d;
+      border-bottom: 1px solid #d28c6d;
+    }
+
+    #langToggle {
+      background-color: #a56a46;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    #langToggle:hover {
+      background-color: #d28c6d;
+    }
+
+    header h1 {
+      font-size: 2em;
+      color: #a56a46;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    /* 個人資訊區塊 */
+    .personal-info {
+      background-color: #fff8f0;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin: 0 auto 20px auto;
+      max-width: 500px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: left;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .personal-info.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+      padding: 0 15px;
+    }
+
+    p {
+      font-size: 1em;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: #a56a46;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 1px dashed #a56a46;
+    }
+
+    a:hover {
+      color: #d28c6d;
+      border-bottom: 1px solid #d28c6d;
+    }
+
+    section {
+      background-color: #fff8f0;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      color: #b2734f;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: disc inside;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      background-color: #f5e6d3;
+      color: #7a5a42;
+      margin-top: 30px;
+      font-size: 0.9em;
+    }
+
+    /* 技能 / 作品集小彈跳 */
+    .list-item {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: bounceIn 0.5s forwards;
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: translateY(10px);}
+      50% { opacity: 1; transform: translateY(-5px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+
+    /* 導覽列固定 */
+    .top-nav.fixed {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(245, 230, 211, 0.9);
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+
+    /* RWD */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5em;
+      }
+      p {
+        font-size: 0.95em;
+      }
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>歡迎來到劉耀鍵的網站</h1>
-    <p>這是一個 HTML 教學範例。</p>
-    <a href="https://www.google.com">前往 Google</a>
+
+  <header>
+    <div class="top-nav" id="topNav">
+      <a href="#about">關於我</a>
+      <a href="#skills">技能</a>
+      <a href="#interests">興趣</a>
+      <a href="#portfolio">作品集</a>
+      <a href="#contact">聯絡我</a>
+      <button id="langToggle">EN</button>
+    </div>
+    <h1 id="mainTitle">歡迎來到劉耀鍵的網站</h1>
+
+    <div class="personal-info fade-in" id="personalInfo">
+      <p><strong>名字：</strong>劉耀鍵</p>
+      <p><strong>年齡：</strong>23</p>
+      <p><strong>學歷：</strong>中原大學 電機工程碩士（在讀）</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="fade-in">
+      <h2>關於我</h2>
+      <p>大家好，我是劉耀鍵，目前就讀碩士一年級，對前端開發與資料分析有興趣，喜歡學習新技術並實作專案。</p>
+    </section>
+
+    <section id="skills" class="fade-in">
+      <h2>技能</h2>
+      <ul>
+        <li>HTML / CSS / JavaScript</li>
+        <li>響應式網頁設計</li>
+        <li>Git / GitHub 版本控制</li>
+      </ul>
+    </section>
+
+    <section id="interests" class="fade-in">
+      <h2>興趣</h2>
+      <ul>
+        <li>前端開發</li>
+        <li>資料分析</li>
+        <li>攝影與旅行</li>
+      </ul>
+    </section>
+
+    <section id="portfolio" class="fade-in">
+      <h2>作品集</h2>
+      <ul>
+        <li>個人網站設計與實作</li>
+        <li>資料可視化專案</li>
+        <li>前端互動遊戲範例</li>
+      </ul>
+    </section>
+
+    <section id="contact" class="fade-in">
+      <h2>聯絡我</h2>
+      <p>Email: <a href="mailto:owo42958@gmail.com">owo42958@gmail.com</a></p>
+      <p>GitHub: <a href="https://github.com">github.com/ycxiwai</a></p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 劉耀鍵
+  </footer>
+
+  <script>
+    const langToggle = document.getElementById('langToggle');
+    let isChinese = true;
+
+    const sections = {
+      mainTitle: document.getElementById('mainTitle'),
+      personalInfo: document.getElementById('personalInfo'),
+      about: document.getElementById('about'),
+      skills: document.getElementById('skills'),
+      interests: document.getElementById('interests'),
+      portfolio: document.getElementById('portfolio'),
+      contact: document.getElementById('contact'),
+      topNav: document.getElementById('topNav')
+    };
+
+    // 中英文切換
+    langToggle.addEventListener('click', () => {
+      if (isChinese) {
+        sections.mainTitle.textContent = "Welcome to Yao-Chien Liu's Website";
+        sections.personalInfo.innerHTML = `
+          <p><strong>Name:</strong> Yao-Chien Liu</p>
+          <p><strong>Age:</strong> 24</p>
+          <p><strong>Education:</strong> Master in Computer Science (ongoing), National University</p>
+        `;
+        sections.about.querySelector('h2').textContent = "About Me";
+        sections.about.querySelector('p').textContent = "Hello, I am Yao-Chien Liu, currently a first-year master's student interested in front-end development and data analysis. I enjoy learning new technologies and building projects.";
+        sections.skills.querySelector('h2').textContent = "Skills";
+        sections.skills.querySelector('ul').innerHTML = `
+          <li>HTML / CSS / JavaScript</li>
+          <li>Responsive Web Design</li>
+          <li>Git / GitHub Version Control</li>
+        `;
+        sections.interests.querySelector('h2').textContent = "Interests";
+        sections.interests.querySelector('ul').innerHTML = `
+          <li>Front-end Development</li>
+          <li>Data Analysis</li>
+          <li>Photography & Travel</li>
+        `;
+        sections.portfolio.querySelector('h2').textContent = "Portfolio";
+        sections.portfolio.querySelector('ul').innerHTML = `
+          <li>Personal Website Design & Implementation</li>
+          <li>Data Visualization Projects</li>
+          <li>Interactive Front-end Game Examples</li>
+        `;
+        sections.contact.querySelector('h2').textContent = "Contact Me";
+        sections.contact.querySelectorAll('p')[0].innerHTML = 'Email: <a href="mailto:owo42958@gmail.com">owo42958@gmail.com</a>';
+        sections.contact.querySelectorAll('p')[1].innerHTML = 'GitHub: <a href="https://github.com">github.com/ycxiwai</a>';
+        langToggle.textContent = "中文";
+      } else {
+        sections.mainTitle.textContent = "歡迎來到劉耀鍵的網站";
+        sections.personalInfo.innerHTML = `
+          <p><strong>名字：</strong>劉耀鍵</p>
+          <p><strong>年齡：</strong>24</p>
+          <p><strong>學歷：</strong>國立大學 資訊工程碩士（在讀）</p>
+        `;
+        sections.about.querySelector('h2').textContent = "關於我";
+        sections.about.querySelector('p').textContent = "大家好，我是劉耀鍵，目前就讀碩士一年級，對前端開發與資料分析有興趣，喜歡學習新技術並實作專案。";
+        sections.skills.querySelector('h2').textContent = "技能";
+        sections.skills.querySelector('ul').innerHTML = `
+          <li>HTML / CSS / JavaScript</li>
+          <li>響應式網頁設計</li>
+          <li>Git / GitHub 版本控制</li>
+        `;
+        sections.interests.querySelector('h2').textContent = "興趣";
+        sections.interests.querySelector('ul').innerHTML = `
+          <li>前端開發</li>
+          <li>資料分析</li>
+          <li>攝影與旅行</li>
+        `;
+        sections.portfolio.querySelector('h2').textContent = "作品集";
+        sections.portfolio.querySelector('ul').innerHTML = `
+          <li>個人網站設計與實作</li>
+          <li>資料可視化專案</li>
+          <li>前端互動遊戲範例</li>
+        `;
+        sections.contact.querySelector('h2').textContent = "聯絡我";
+        sections.contact.querySelectorAll('p')[0].innerHTML = 'Email: <a href="mailto:owo42958@gmail.com">owo42958@gmail.com</a>';
+        sections.contact.querySelectorAll('p')[1].innerHTML = 'GitHub: <a href="https://github.com">github.com/ycxiwai</a>';
+        langToggle.textContent = "EN";
+      }
+      isChinese = !isChinese;
+    });
+
+    // 滾動淡入效果
+    const fadeEls = document.querySelectorAll('.fade-in, section');
+
+    function checkFade() {
+      const triggerBottom = window.innerHeight * 0.9;
+      fadeEls.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < triggerBottom) {
+          el.classList.add('show');
+        }
+      });
+    }
+
+    // 導覽列固定
+    const navOffset = sections.topNav.offsetTop;
+    function checkNavFixed() {
+      if(window.scrollY > navOffset) {
+        sections.topNav.classList.add('fixed');
+      } else {
+        sections.topNav.classList.remove('fixed');
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      checkFade();
+      checkNavFixed();
+    });
+
+    // 技能 / 作品集小彈跳
+    const skillItems = document.querySelectorAll('#skills li');
+    skillItems.forEach((li, i) => {
+      li.style.animationDelay = `${i * 0.1}s`;
+      li.classList.add('list-item');
+    });
+
+    const portfolioItems = document.querySelectorAll('#portfolio li');
+    portfolioItems.forEach((li, i) => {
+      li.style.animationDelay = `${i * 0.15}s`;
+      li.classList.add('list-item');
+    });
+
+    // 初始觸發
+    checkFade();
+    checkNavFixed();
+  </script>
 </body>
 </html>
