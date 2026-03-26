@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生活 & 興趣</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
+nav {display:flex; justify-content:space-between; align-items:center; background:#f5e6d3; padding:10px 20px;}
+nav .links a {margin-right:15px; text-decoration:none; color:#a56a46; font-weight:bold;}
+#langToggle {background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
+.container {max-width:900px; margin:30px auto; padding:0 15px;}
+.card {background:#fff8f0; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); opacity:0; transform:translateY(20px); transition:opacity 0.8s, transform 0.8s;}
+.card.show{opacity:1; transform:translateY(0);}
+h1 {text-align:center; margin-bottom:30px; color:#a56a46;}
+h2 {color:#b2734f; margin-bottom:10px;}
+img {width:100%; border-radius:10px; margin-top:10px;}
+@media(max-width:600px){nav{flex-direction:column; align-items:flex-start;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="links">
+    <a href="index.html">首頁</a>
+    <a href="portfolio.html">專業履歷</a>
+  </div>
+  <button id="langToggle">EN</button>
+</nav>
+
+<h1 id="title">生活 & 興趣</h1>
+
+<div class="container">
+  <div class="card">
+    <h2 id="music">🎵 音樂</h2>
+    <p id="musicDesc">喜歡彈吉他</p>
+  </div>
+  <div class="card">
+    <h2 id="travel">✈️ 旅行</h2>
+    <p id="travelDesc">探索不同文化</p>
+  </div>
+  <div class="card">
+    <h2 id="photo">📷 攝影</h2>
+    <p id="photoDesc">記錄生活與旅行的瞬間</p>
+    <img src="https://picsum.photos/600/300" alt="攝影">
+  </div>
+</div>
+
+<script>
+let isZh=true;
+const title=document.getElementById("title");
+const music=document.getElementById("music"),musicDesc=document.getElementById("musicDesc");
+const travel=document.getElementById("travel"),travelDesc=document.getElementById("travelDesc");
+const photo=document.getElementById("photo"),photoDesc=document.getElementById("photoDesc");
+const langToggle=document.getElementById("langToggle");
+const cards=document.querySelectorAll(".card");
+
+window.addEventListener('scroll',()=>{
+  cards.forEach(c=>{if(c.getBoundingClientRect().top<window.innerHeight*0.9)c.classList.add('show');});
+});
+
+langToggle.onclick=()=>{
+  if(isZh){
+    title.textContent="Life & Hobbies";
+    music.textContent="🎵 Music"; musicDesc.textContent="Guitar & Listening Music";
+    travel.textContent="✈️ Travel"; travelDesc.textContent="Explore different cultures";
+    photo.textContent="📷 Photography"; photoDesc.textContent="Capture moments of life & travel";
+    langToggle.textContent="中文";
+  }else{
+    title.textContent="生活 & 興趣";
+    music.textContent="🎵 音樂"; musicDesc.textContent="喜歡彈吉他";
+    travel.textContent="✈️ 旅行"; travelDesc.textContent="探索不同文化";
+    photo.textContent="📷 攝影"; photoDesc.textContent="記錄生活與旅行的瞬間";
+    langToggle.textContent="EN";
+  }
+  isZh=!isZh;
+};
+</script>
+
+</body>
+</html>

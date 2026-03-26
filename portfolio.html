@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專業履歷</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
+nav {display:flex; justify-content:space-between; align-items:center; background:#f5e6d3; padding:10px 20px;}
+nav .links a {margin-right:15px; text-decoration:none; color:#a56a46; font-weight:bold;}
+#langToggle {background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
+.container {max-width:900px; margin:30px auto; padding:0 15px;}
+section {background:#fff8f0; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); opacity:0; transform:translateY(20px); transition:opacity 0.8s, transform 0.8s;}
+section.show{opacity:1; transform:translateY(0);}
+h1{text-align:center; margin-bottom:30px; color:#a56a46;}
+h2{color:#b2734f; margin-bottom:10px;}
+ul{list-style:disc inside;}
+@media(max-width:600px){nav{flex-direction:column; align-items:flex-start;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="links">
+    <a href="index.html">首頁</a>
+    <a href="life.html">生活 & 興趣</a>
+  </div>
+  <button id="langToggle">EN</button>
+</nav>
+
+<h1 id="title">專業履歷</h1>
+
+<div class="container">
+  <section id="about">
+    <h2 id="aboutTitle">關於我</h2>
+    <p id="aboutDesc">碩士生，對前端與資料分析有興趣</p>
+  </section>
+
+  <section id="skills">
+    <h2 id="skillsTitle">技能</h2>
+    <ul id="skillsList">
+      <li>HTML / CSS / JavaScript</li>
+      <li>RWD 響應式設計</li>
+      <li>Git / GitHub 版本控制</li>
+    </ul>
+  </section>
+
+  <section id="portfolio">
+    <h2 id="portfolioTitle">作品集</h2>
+    <ul id="portfolioList">
+      <li>個人網站設計與實作</li>
+      <li>資料可視化專案</li>
+      <li>前端互動遊戲範例</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2 id="contactTitle">聯絡我</h2>
+    <p>Email: <a href="mailto:owo42958@gmail.com">owo42958@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/ycxiwai">github.com/ycxiwai</a></p>
+  </section>
+</div>
+
+<script>
+let isZh=true;
+const title=document.getElementById("title");
+const aboutTitle=document.getElementById("aboutTitle"),aboutDesc=document.getElementById("aboutDesc");
+const skillsTitle=document.getElementById("skillsTitle"),skillsList=document.getElementById("skillsList");
+const portfolioTitle=document.getElementById("portfolioTitle"),portfolioList=document.getElementById("portfolioList");
+const contactTitle=document.getElementById("contactTitle");
+const langToggle=document.getElementById("langToggle");
+const sections=document.querySelectorAll("section");
+
+function fadeIn(){sections.forEach(s=>{if(s.getBoundingClientRect().top<window.innerHeight*0.9)s.classList.add('show');});}
+window.addEventListener('scroll',fadeIn);
+fadeIn();
+
+langToggle.onclick=()=>{
+  if(isZh){
+    title.textContent="Professional Resume";
+    aboutTitle.textContent="About Me"; aboutDesc.textContent="Master student interested in front-end & data analysis";
+    skillsTitle.textContent="Skills"; skillsList.innerHTML=`<li>HTML / CSS / JS</li><li>Responsive Web Design</li><li>Git / GitHub Version Control</li>`;
+    portfolioTitle.textContent="Portfolio"; portfolioList.innerHTML=`<li>Personal Website</li><li>Data Visualization Projects</li><li>Interactive Front-end Games</li>`;
+    contactTitle.textContent="Contact Me";
+    langToggle.textContent="中文";
+  }else{
+    title.textContent="專業履歷";
+    aboutTitle.textContent="關於我"; aboutDesc.textContent="碩士生，對前端與資料分析有興趣";
+    skillsTitle.textContent="技能"; skillsList.innerHTML=`<li>HTML / CSS / JavaScript</li><li>RWD 響應式設計</li><li>Git / GitHub 版本控制</li>`;
+    portfolioTitle.textContent="作品集"; portfolioList.innerHTML=`<li>個人網站設計與實作</li><li>資料可視化專案</li><li>前端互動遊戲範例</li>`;
+    contactTitle.textContent="聯絡我";
+    langToggle.textContent="EN";
+  }
+  isZh=!isZh;
+};
+</script>
+
+</body>
+</html>
