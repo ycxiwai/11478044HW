@@ -56,11 +56,18 @@ const photo=document.getElementById("photo"),photoDesc=document.getElementById("
 const langToggle=document.getElementById("langToggle");
 const cards=document.querySelectorAll(".card");
 
-window.addEventListener('scroll',()=>{
-  cards.forEach(c=>{if(c.getBoundingClientRect().top<window.innerHeight*0.9)c.classList.add('show');});
-});
+// 滾動動畫
+function fadeIn(){
+  cards.forEach(c => {
+    if(c.getBoundingClientRect().top < window.innerHeight * 0.9)
+      c.classList.add('show');
+  });
+}
+window.addEventListener('scroll', fadeIn);
+fadeIn();
 
-langToggle.onclick=()=>{
+// 語言切換
+langToggle.onclick = () => {
   if(isZh){
     title.textContent="Life & Hobbies";
     music.textContent="🎵 Music"; musicDesc.textContent="Guitar & Listening Music";
