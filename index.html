@@ -4,19 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>歡迎來到劉耀鍵的網站</title>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
-body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36; display:flex; justify-content:center; align-items:center; height:100vh;}
+body {
+  font-family:'Noto Sans TC',Arial,sans-serif;
+  background:#fdf6e3;
+  color:#3e3a36;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
 .container {max-width:600px; width:90%;}
-h1 {text-align:center; color:#a56a46; margin-bottom:30px;}
-.card {background:#fff8f0; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.08); text-align:center;}
+
+h1 {
+  text-align:center;
+  color:#a56a46;
+  margin-bottom:30px;
+}
+
+.card {
+  background:#fff8f0;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
 .card h2 {color:#b2734f; margin-bottom:10px;}
 .card p {margin-bottom:15px;}
-.btn {padding:10px 20px; border:none; border-radius:8px; background:#a56a46; color:#fff; font-weight:bold; cursor:pointer; transition:0.3s;}
+
+.btn {
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  background:#a56a46;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
 .btn:hover {background:#d28c6d;}
-#langToggle {position:absolute; top:10px; right:10px; background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
+
+#langToggle {
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#a56a46;
+  color:#fff;
+  border:none;
+  padding:5px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
 </style>
 </head>
+
 <body>
 
 <button id="langToggle">EN</button>
@@ -24,46 +71,76 @@ h1 {text-align:center; color:#a56a46; margin-bottom:30px;}
 <div class="container">
   <h1 id="title">歡迎來到劉耀鍵的網站</h1>
 
+  <!-- 💻 專業履歷（第一個） -->
+  <div class="card">
+    <h2 id="workTitle">💻 專業履歷</h2>
+    <p id="workDesc">技能、專案、經歷</p>
+    <button class="btn" onclick="location.href='portfolio.html'">進入</button>
+  </div>
+
+  <!-- 🎸 生活興趣（第二個） -->
   <div class="card">
     <h2 id="lifeTitle">🎸 生活 & 興趣</h2>
     <p id="lifeDesc">音樂、旅行、攝影</p>
     <button class="btn" onclick="location.href='life.html'">進入</button>
   </div>
 
+  <!-- 🍀 每日運氣（新增） -->
   <div class="card">
-    <h2 id="workTitle">💻 專業履歷</h2>
-    <p id="workDesc">技能、專案、經歷</p>
-    <button class="btn" onclick="location.href='portfolio.html'">進入</button>
+    <h2 id="fortuneTitle">🍀 每日運氣</h2>
+    <p id="fortuneDesc">抽一支籤看看今天運氣如何</p>
+    <button class="btn" onclick="location.href='fortune.html'">開始抽籤</button>
   </div>
+
 </div>
 
 <script>
 let isZh = true;
+
 const title = document.getElementById("title");
+
 const lifeTitle = document.getElementById("lifeTitle");
 const lifeDesc = document.getElementById("lifeDesc");
+
 const workTitle = document.getElementById("workTitle");
 const workDesc = document.getElementById("workDesc");
+
+const fortuneTitle = document.getElementById("fortuneTitle");
+const fortuneDesc = document.getElementById("fortuneDesc");
+
 const langToggle = document.getElementById("langToggle");
 
 langToggle.onclick = () => {
   if(isZh){
     title.textContent="Welcome to Yao-Chien Liu's Website";
-    lifeTitle.textContent="🎸 Life & Hobbies";
-    lifeDesc.textContent="Music, Travel, Photography";
+
     workTitle.textContent="💻 Professional / Resume";
     workDesc.textContent="Skills, Projects";
+
+    lifeTitle.textContent="🎸 Life & Hobbies";
+    lifeDesc.textContent="Music, Travel, Photography";
+
+    fortuneTitle.textContent="🍀 Daily Fortune";
+    fortuneDesc.textContent="Draw a fortune for today";
+
     langToggle.textContent="中文";
   }else{
     title.textContent="歡迎來到劉耀鍵的網站";
-    lifeTitle.textContent="🎸 生活 & 興趣";
-    lifeDesc.textContent="音樂、旅行、攝影";
+
     workTitle.textContent="💻 專業履歷";
     workDesc.textContent="技能、專案、經歷";
+
+    lifeTitle.textContent="🎸 生活 & 興趣";
+    lifeDesc.textContent="音樂、旅行、攝影";
+
+    fortuneTitle.textContent="🍀 每日運氣";
+    fortuneDesc.textContent="抽一支籤看看今天運氣如何";
+
     langToggle.textContent="EN";
   }
   isZh=!isZh;
 };
 </script>
+
 </body>
 </html>
