@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日運氣</title>
+
+<style>
+body {
+  font-family:'Noto Sans TC',Arial,sans-serif;
+  background:#fdf6e3;
+  text-align:center;
+  color:#3e3a36;
+  padding:20px;
+}
+
+h1 {
+  color:#a56a46;
+  margin-bottom:20px;
+}
+
+.box {
+  margin:30px auto;
+  width:250px;
+  height:150px;
+  background:#fff8f0;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+button {
+  padding:10px 20px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+  background:#a56a46;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover {
+  opacity:0.8;
+}
+
+/* 🎲 抽籤動畫 */
+.shake {
+  animation: shake 0.6s infinite;
+}
+
+@keyframes shake {
+  0% {transform: rotate(0deg);}
+  25% {transform: rotate(3deg);}
+  50% {transform: rotate(-3deg);}
+  75% {transform: rotate(2deg);}
+  100% {transform: rotate(0deg);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>🍀 每日運氣抽籤</h1>
+
+<div id="result" class="box">點擊抽籤</div>
+
+<button onclick="draw()">抽籤</button>
+
+<script>
+const fortunes = [
+  {text:"🎉 大吉", color:"#ffcc00"},
+  {text:"😊 中吉", color:"#ffd966"},
+  {text:"🙂 小吉", color:"#fff2cc"},
+  {text:"😐 普通", color:"#e0e0e0"},
+  {text:"😢 小凶", color:"#d9d9d9"}
+];
+
+function draw(){
+  const box = document.getElementById("result");
+
+  // 開始動畫
+  box.classList.add("shake");
+  box.textContent = "抽籤中...";
+
+  setTimeout(() => {
+    const random = Math.floor(Math.random() * fortunes.length);
+    const result = fortunes[random];
+
+    box.classList.remove("shake");
+    box.textContent = result.text;
+    box.style.background = result.color;
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
