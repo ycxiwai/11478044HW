@@ -1,24 +1,93 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活 & 興趣</title>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
-nav {display:flex; justify-content:space-between; align-items:center; background:#f5e6d3; padding:10px 20px;}
-nav .links a {margin-right:15px; text-decoration:none; color:#a56a46; font-weight:bold;}
-#langToggle {background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
-.container {max-width:900px; margin:30px auto; padding:0 15px;}
-.card {background:#fff8f0; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08); opacity:0; transform:translateY(20px); transition:opacity 0.8s, transform 0.8s;}
-.card.show{opacity:1; transform:translateY(0);}
+
+nav {
+  display:flex; justify-content:space-between; align-items:center;
+  background:#f5e6d3; padding:10px 20px;
+}
+
+nav .links a {
+  margin-right:15px; text-decoration:none;
+  color:#a56a46; font-weight:bold;
+}
+
+#langToggle {
+  background:#a56a46; color:#fff;
+  border:none; padding:5px 10px;
+  border-radius:5px; cursor:pointer;
+}
+
+.container {
+  max-width:900px; margin:30px auto; padding:0 15px;
+}
+
+.card {
+  background:#fff8f0; padding:20px; margin-bottom:20px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  opacity:0; transform:translateY(20px);
+  transition:opacity 0.8s, transform 0.8s;
+}
+
+.card.show {opacity:1; transform:translateY(0);}
+
 h1 {text-align:center; margin-bottom:30px; color:#a56a46;}
 h2 {color:#b2734f; margin-bottom:10px;}
-img {width:100%; border-radius:10px; margin-top:10px;}
-@media(max-width:600px){nav{flex-direction:column; align-items:flex-start;}}
+h3 {color:#8c5a3c;}
+
+img {width:100%; border-radius:10px;}
+
+/* 🎞️ 共用輪播 */
+.slider {
+  position: relative;
+  margin-top: 10px;
+}
+
+.slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* 📷 攝影輪播 */
+.slide {
+  display: none;
+}
+.slide.active {
+  display: block;
+}
+
+/* 🌊 小琉球輪播 */
+.slide-liuqiu {
+  display: none;
+}
+.slide-liuqiu.active {
+  display: block;
+}
+
+@media(max-width:600px){
+  nav{flex-direction:column; align-items:flex-start;}
+}
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -32,19 +101,46 @@ img {width:100%; border-radius:10px; margin-top:10px;}
 <h1 id="title">生活 & 興趣</h1>
 
 <div class="container">
+
   <div class="card">
     <h2 id="music">🎵 音樂</h2>
     <p id="musicDesc">喜歡彈吉他</p>
   </div>
+
+  <!-- ✈️ 旅行 + 小琉球 -->
   <div class="card">
     <h2 id="travel">✈️ 旅行</h2>
     <p id="travelDesc">探索不同文化</p>
+
+    <h3 style="margin-top:15px;">🏝️ 小琉球</h3>
+
+    <div class="slider slider-liuqiu">
+      <button class="prev">❮</button>
+
+      <img class="slide-liuqiu active" src="images/liuqiu1.jpg">
+      <img class="slide-liuqiu" src="images/liuqiu2.jpg">
+      <img class="slide-liuqiu" src="images/liuqiu3.jpg">
+
+      <button class="next">❯</button>
+    </div>
   </div>
+
+  <!-- 📷 攝影 -->
   <div class="card">
     <h2 id="photo">📷 攝影</h2>
     <p id="photoDesc">記錄生活與旅行的瞬間</p>
-    <img src="https://picsum.photos/600/300" alt="攝影">
+
+    <div class="slider slider-photo">
+      <button class="prev">❮</button>
+
+      <img class="slide active" src="images/photo1.jpg">
+      <img class="slide" src="images/photo2.jpg">
+      <img class="slide" src="images/photo3.jpg">
+
+      <button class="next">❯</button>
+    </div>
   </div>
+
 </div>
 
 <script>
@@ -83,6 +179,35 @@ langToggle.onclick = () => {
   }
   isZh=!isZh;
 };
+
+// ✅ 多輪播功能
+function setupSlider(sliderClass, slideClass) {
+  const slider = document.querySelector(sliderClass);
+  const slides = slider.querySelectorAll(slideClass);
+  const nextBtn = slider.querySelector(".next");
+  const prevBtn = slider.querySelector(".prev");
+
+  let current = 0;
+
+  function showSlide(index){
+    slides.forEach(s => s.classList.remove("active"));
+    slides[index].classList.add("active");
+  }
+
+  nextBtn.onclick = () => {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  };
+
+  prevBtn.onclick = () => {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  };
+}
+
+// 初始化兩個輪播
+setupSlider(".slider-photo", ".slide");
+setupSlider(".slider-liuqiu", ".slide-liuqiu");
 </script>
 
 </body>
