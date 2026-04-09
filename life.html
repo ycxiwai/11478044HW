@@ -9,32 +9,15 @@
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
 
-nav {
-  display:flex; justify-content:space-between; align-items:center;
-  background:#f5e6d3; padding:10px 20px;
-}
-nav .links a {
-  margin-right:15px; text-decoration:none;
-  color:#a56a46; font-weight:bold;
-}
-#langToggle {
-  background:#a56a46; color:#fff;
-  border:none; padding:5px 10px;
-  border-radius:5px; cursor:pointer;
-}
+nav {display:flex; justify-content:space-between; align-items:center; background:#f5e6d3; padding:10px 20px;}
+nav .links a {margin-right:15px; text-decoration:none; color:#a56a46; font-weight:bold;}
+#langToggle {background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
 .container {max-width:900px; margin:30px auto; padding:0 15px;}
-.card {
-  background:#fff8f0; padding:20px; margin-bottom:20px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
-  opacity:0; transform:translateY(20px);
-  transition:opacity 0.8s, transform 0.8s;
-}
-.card.show {opacity:1; transform:translateY(0);}
-h1 {text-align:center; margin-bottom:30px; color:#a56a46;}
-h2 {color:#b2734f; margin-bottom:10px;}
-h3 {color:#8c5a3c; margin:10px 0;}
-img {width:100%; border-radius:10px; display:block;}
+.card {background:#fff8f0; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+h1{text-align:center; margin-bottom:30px; color:#a56a46;}
+h2{color:#b2734f; margin-bottom:10px;}
+h3{color:#8c5a3c; margin:10px 0;}
+img{width:100%; border-radius:10px; display:block;}
 
 /* 四宮格 */
 .grid-4 {
@@ -43,13 +26,20 @@ img {width:100%; border-radius:10px; display:block;}
   grid-template-rows: repeat(2, 1fr);
   gap: 10px;
   margin-top: 10px;
+  min-height: 200px; /* 保持輪播高度一致 */
 }
-@media(max-width:600px){
-  .grid-4 {grid-template-columns: 1fr; grid-template-rows: auto;}
+.grid-4 img {display:block;}
+
+/* 輪播按鈕 */
+.slider-btn {
+  text-align:center;
+  margin-top:10px;
+}
+.slider-btn button {
+  background:#a56a46; color:#fff; border:none; padding:5px 10px; margin:0 5px; border-radius:5px; cursor:pointer;
 }
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -66,28 +56,14 @@ img {width:100%; border-radius:10px; display:block;}
 <div class="container">
 
   <div class="card">
-    <h2 id="music">🎵 音樂</h2>
-    <p id="musicDesc">喜歡彈吉他</p>
-  </div>
-
-  <div class="card">
     <h2 id="travel">✈️ 旅行</h2>
     <p id="travelDesc">探索不同文化</p>
 
-    <h3>🏝️ 小琉球 - 四宮格 1</h3>
-    <div class="grid-4">
-      <img src="images/liuqiu1.jpg">
-      <img src="images/liuqiu2.jpg">
-      <img src="images/liuqiu3.jpg">
-      <img src="images/liuqiu4.jpg">
-    </div>
-
-    <h3>🏝️ 小琉球 - 四宮格 2</h3>
-    <div class="grid-4">
-      <img src="images/liuqiu5.jpg">
-      <img src="images/liuqiu6.jpg">
-      <img src="images/liuqiu7.jpg">
-      <img src="images/liuqiu8.jpg">
+    <h3>🏝️ 小琉球</h3>
+    <div class="grid-4" id="liuqiu-grid"></div>
+    <div class="slider-btn">
+      <button onclick="prevSlide('liuqiu')">❮ 上一組</button>
+      <button onclick="nextSlide('liuqiu')">下一組 ❯</button>
     </div>
   </div>
 
@@ -95,61 +71,52 @@ img {width:100%; border-radius:10px; display:block;}
     <h2 id="photo">📷 攝影</h2>
     <p id="photoDesc">記錄生活與旅行的瞬間</p>
 
-    <h3>📷 攝影 - 四宮格 1</h3>
-    <div class="grid-4">
-      <img src="images/photo1.jpg">
-      <img src="images/photo2.jpg">
-      <img src="images/photo3.jpg">
-      <img src="images/photo4.jpg">
-    </div>
-
-    <h3>📷 攝影 - 四宮格 2</h3>
-    <div class="grid-4">
-      <img src="images/photo5.jpg">
-      <img src="images/photo6.jpg">
-      <img src="images/photo7.jpg">
-      <img src="images/photo8.jpg">
+    <h3>📷 攝影</h3>
+    <div class="grid-4" id="photo-grid"></div>
+    <div class="slider-btn">
+      <button onclick="prevSlide('photo')">❮ 上一組</button>
+      <button onclick="nextSlide('photo')">下一組 ❯</button>
     </div>
   </div>
 
 </div>
 
 <script>
-let isZh=true;
-const title=document.getElementById("title");
-const music=document.getElementById("music"),musicDesc=document.getElementById("musicDesc");
-const travel=document.getElementById("travel"),travelDesc=document.getElementById("travelDesc");
-const photo=document.getElementById("photo"),photoDesc=document.getElementById("photoDesc");
-const langToggle=document.getElementById("langToggle");
-const cards=document.querySelectorAll(".card");
-
-// 滾動動畫
-function fadeIn(){
-  cards.forEach(c => {
-    if(c.getBoundingClientRect().top < window.innerHeight * 0.9)
-      c.classList.add('show');
-  });
-}
-window.addEventListener('scroll', fadeIn);
-fadeIn();
-
-// 語言切換
-langToggle.onclick = () => {
-  if(isZh){
-    title.textContent="Life & Hobbies";
-    music.textContent="🎵 Music"; musicDesc.textContent="Guitar & Listening Music";
-    travel.textContent="✈️ Travel"; travelDesc.textContent="Explore different cultures";
-    photo.textContent="📷 Photography"; photoDesc.textContent="Capture moments of life & travel";
-    langToggle.textContent="中文";
-  }else{
-    title.textContent="生活興趣";
-    music.textContent="🎵 音樂"; musicDesc.textContent="喜歡彈吉他";
-    travel.textContent="✈️ 旅行"; travelDesc.textContent="探索不同文化";
-    photo.textContent="📷 攝影"; photoDesc.textContent="記錄生活與旅行的瞬間";
-    langToggle.textContent="EN";
-  }
-  isZh=!isZh;
+// 圖片資料
+const images = {
+  liuqiu: ["images/liuqiu1.jpg","images/liuqiu2.jpg","images/liuqiu3.jpg","images/liuqiu4.jpg",
+           "images/liuqiu5.jpg","images/liuqiu6.jpg","images/liuqiu7.jpg","images/liuqiu8.jpg"],
+  photo: ["images/photo1.jpg","images/photo2.jpg","images/photo3.jpg","images/photo4.jpg",
+          "images/photo5.jpg","images/photo6.jpg","images/photo7.jpg","images/photo8.jpg"]
 };
+
+let currentIndex = {liuqiu:0, photo:0};
+const perSlide = 4;
+
+function showSlide(type){
+  const grid = document.getElementById(type+"-grid");
+  grid.innerHTML = "";
+  for(let i=0;i<perSlide;i++){
+    const idx = (currentIndex[type]+i)%images[type].length;
+    const img = document.createElement("img");
+    img.src = images[type][idx];
+    grid.appendChild(img);
+  }
+}
+
+function nextSlide(type){
+  currentIndex[type] = (currentIndex[type]+perSlide) % images[type].length;
+  showSlide(type);
+}
+
+function prevSlide(type){
+  currentIndex[type] = (currentIndex[type]-perSlide+images[type].length) % images[type].length;
+  showSlide(type);
+}
+
+// 初始化
+showSlide('liuqiu');
+showSlide('photo');
 </script>
 
 </body>
