@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活興趣</title>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
@@ -12,22 +13,16 @@ nav {
   display:flex; justify-content:space-between; align-items:center;
   background:#f5e6d3; padding:10px 20px;
 }
-
 nav .links a {
   margin-right:15px; text-decoration:none;
   color:#a56a46; font-weight:bold;
 }
-
 #langToggle {
   background:#a56a46; color:#fff;
   border:none; padding:5px 10px;
   border-radius:5px; cursor:pointer;
 }
-
-.container {
-  max-width:900px; margin:30px auto; padding:0 15px;
-}
-
+.container {max-width:900px; margin:30px auto; padding:0 15px;}
 .card {
   background:#fff8f0; padding:20px; margin-bottom:20px;
   border-radius:12px;
@@ -35,56 +30,26 @@ nav .links a {
   opacity:0; transform:translateY(20px);
   transition:opacity 0.8s, transform 0.8s;
 }
-
 .card.show {opacity:1; transform:translateY(0);}
-
 h1 {text-align:center; margin-bottom:30px; color:#a56a46;}
 h2 {color:#b2734f; margin-bottom:10px;}
-h3 {color:#8c5a3c;}
+h3 {color:#8c5a3c; margin:10px 0;}
+img {width:100%; border-radius:10px; display:block;}
 
-img {border-radius:10px;}
-
-/* 四格輪播樣式 */
-.slider {
-  position: relative;
-  margin-top: 10px;
-  overflow: hidden;
-}
-
-.slider .grid-wrapper {
-  display: flex;
+/* 四宮格 */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 10px;
-  transition: transform 0.3s;
+  margin-top: 10px;
 }
-
-.slider .grid-wrapper img {
-  width: calc(25% - 7.5px); /* 四格寬度 */
-  flex-shrink: 0;
-}
-
-/* 按鈕 */
-.slider button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.4);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.prev { left: 5px; }
-.next { right: 5px; }
-
 @media(max-width:600px){
-  nav{flex-direction:column; align-items:flex-start;}
-  .slider .grid-wrapper img {width: calc(50% - 5px);} /* 小螢幕兩格 */
+  .grid-4 {grid-template-columns: 1fr; grid-template-rows: auto;}
 }
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -109,39 +74,41 @@ img {border-radius:10px;}
     <h2 id="travel">✈️ 旅行</h2>
     <p id="travelDesc">探索不同文化</p>
 
-    <h3 style="margin-top:15px;">🏝️ 小琉球</h3>
-    <div class="slider slider-liuqiu-grid">
-      <button class="prev">❮</button>
-      <div class="grid-wrapper">
-        <img src="images/liuqiu1.jpg">
-        <img src="images/liuqiu2.jpg">
-        <img src="images/liuqiu3.jpg">
-        <img src="images/liuqiu4.jpg">
-        <img src="images/liuqiu5.jpg">
-        <img src="images/liuqiu6.jpg">
-        <img src="images/liuqiu7.jpg">
-        <img src="images/liuqiu8.jpg">
-      </div>
-      <button class="next">❯</button>
+    <h3>🏝️ 小琉球 - 四宮格 1</h3>
+    <div class="grid-4">
+      <img src="images/liuqiu1.jpg">
+      <img src="images/liuqiu2.jpg">
+      <img src="images/liuqiu3.jpg">
+      <img src="images/liuqiu4.jpg">
+    </div>
+
+    <h3>🏝️ 小琉球 - 四宮格 2</h3>
+    <div class="grid-4">
+      <img src="images/liuqiu5.jpg">
+      <img src="images/liuqiu6.jpg">
+      <img src="images/liuqiu7.jpg">
+      <img src="images/liuqiu8.jpg">
     </div>
   </div>
 
   <div class="card">
     <h2 id="photo">📷 攝影</h2>
     <p id="photoDesc">記錄生活與旅行的瞬間</p>
-    <div class="slider slider-photo-grid">
-      <button class="prev">❮</button>
-      <div class="grid-wrapper">
-        <img src="images/photo1.jpg">
-        <img src="images/photo2.jpg">
-        <img src="images/photo3.jpg">
-        <img src="images/photo4.jpg">
-        <img src="images/photo5.jpg">
-        <img src="images/photo6.jpg">
-        <img src="images/photo7.jpg">
-        <img src="images/photo8.jpg">
-      </div>
-      <button class="next">❯</button>
+
+    <h3>📷 攝影 - 四宮格 1</h3>
+    <div class="grid-4">
+      <img src="images/photo1.jpg">
+      <img src="images/photo2.jpg">
+      <img src="images/photo3.jpg">
+      <img src="images/photo4.jpg">
+    </div>
+
+    <h3>📷 攝影 - 四宮格 2</h3>
+    <div class="grid-4">
+      <img src="images/photo5.jpg">
+      <img src="images/photo6.jpg">
+      <img src="images/photo7.jpg">
+      <img src="images/photo8.jpg">
     </div>
   </div>
 
@@ -183,34 +150,6 @@ langToggle.onclick = () => {
   }
   isZh=!isZh;
 };
-
-// 四格輪播功能
-function setupGridSlider(sliderClass){
-  const slider = document.querySelector(sliderClass);
-  const wrapper = slider.querySelector(".grid-wrapper");
-  const slides = wrapper.querySelectorAll("img");
-  const nextBtn = slider.querySelector(".next");
-  const prevBtn = slider.querySelector(".prev");
-  let index = 0;
-
-  function update() {
-    const offset = -(index * (slides[0].offsetWidth + 10)); // gap 10px
-    wrapper.style.transform = `translateX(${offset}px)`;
-  }
-
-  nextBtn.onclick = () => {
-    if(index < slides.length - 4) index++; // 顯示四張
-    update();
-  };
-  prevBtn.onclick = () => {
-    if(index > 0) index--;
-    update();
-  };
-}
-
-// 初始化四格輪播
-setupGridSlider(".slider-liuqiu-grid");
-setupGridSlider(".slider-photo-grid");
 </script>
 
 </body>
