@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活興趣</title>
-
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
@@ -21,23 +20,31 @@ img{width:100%; border-radius:10px; display:block;}
 
 /* 四宮格 */
 .grid-4 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 10px;
-  min-height: 200px; /* 保持輪播高度一致 */
-}
-.grid-4 img {display:block;}
-
-/* 輪播按鈕 */
-.slider-btn {
-  text-align:center;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:10px;
   margin-top:10px;
+  position:relative;
 }
-.slider-btn button {
-  background:#a56a46; color:#fff; border:none; padding:5px 10px; margin:0 5px; border-radius:5px; cursor:pointer;
+
+/* 半透明方向鍵 */
+.grid-4 .arrow {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.4);
+  color:white;
+  border:none;
+  padding:10px 14px;
+  cursor:pointer;
+  border-radius:50%;
+  font-size:20px;
+  z-index:10;
 }
+.grid-4 .prev { left:5px; }
+.grid-4 .next { right:5px; }
+
 </style>
 </head>
 <body>
@@ -58,24 +65,20 @@ img{width:100%; border-radius:10px; display:block;}
   <div class="card">
     <h2 id="travel">✈️ 旅行</h2>
     <p id="travelDesc">探索不同文化</p>
-
     <h3>🏝️ 小琉球</h3>
-    <div class="grid-4" id="liuqiu-grid"></div>
-    <div class="slider-btn">
-      <button onclick="prevSlide('liuqiu')">❮ 上一組</button>
-      <button onclick="nextSlide('liuqiu')">下一組 ❯</button>
+    <div class="grid-4" id="liuqiu-grid">
+      <button class="arrow prev" onclick="prevSlide('liuqiu')">❮</button>
+      <button class="arrow next" onclick="nextSlide('liuqiu')">❯</button>
     </div>
   </div>
 
   <div class="card">
     <h2 id="photo">📷 攝影</h2>
     <p id="photoDesc">記錄生活與旅行的瞬間</p>
-
     <h3>📷 攝影</h3>
-    <div class="grid-4" id="photo-grid"></div>
-    <div class="slider-btn">
-      <button onclick="prevSlide('photo')">❮ 上一組</button>
-      <button onclick="nextSlide('photo')">下一組 ❯</button>
+    <div class="grid-4" id="photo-grid">
+      <button class="arrow prev" onclick="prevSlide('photo')">❮</button>
+      <button class="arrow next" onclick="nextSlide('photo')">❯</button>
     </div>
   </div>
 
@@ -95,12 +98,17 @@ const perSlide = 4;
 
 function showSlide(type){
   const grid = document.getElementById(type+"-grid");
-  grid.innerHTML = "";
+  // 先清空除了箭頭的元素
+  Array.from(grid.children).forEach(c => {
+    if(!c.classList.contains('arrow')) c.remove();
+  });
+  // 新增四張圖片
   for(let i=0;i<perSlide;i++){
     const idx = (currentIndex[type]+i)%images[type].length;
     const img = document.createElement("img");
     img.src = images[type][idx];
-    grid.appendChild(img);
+    // 插入在箭頭後面
+    grid.insertBefore(img, grid.querySelector('.next'));
   }
 }
 
