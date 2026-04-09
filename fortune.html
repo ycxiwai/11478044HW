@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -6,50 +6,105 @@
 <title>每日運氣</title>
 
 <style>
+* {margin:0; padding:0; box-sizing:border-box;}
+
 body {
   font-family:'Noto Sans TC',Arial,sans-serif;
   background:#fdf6e3;
-  text-align:center;
   color:#3e3a36;
-  padding:20px;
 }
 
-h1 {
+/* 導覽列（完全沿用） */
+nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f5e6d3;
+  padding:10px 20px;
+}
+
+nav .links a {
+  margin-right:15px;
+  text-decoration:none;
   color:#a56a46;
-  margin-bottom:20px;
+  font-weight:bold;
 }
 
-.box {
+#langToggle {
+  background:#a56a46;
+  color:#fff;
+  border:none;
+  padding:5px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* 主容器 */
+.container {
+  max-width:900px;
   margin:30px auto;
-  width:250px;
-  height:150px;
+  padding:0 15px;
+}
+
+/* 標題 */
+h1 {
+  text-align:center;
+  margin-bottom:30px;
+  color:#a56a46;
+}
+
+/* 卡片 section（統一風格） */
+section {
   background:#fff8f0;
-  border-radius:15px;
+  padding:30px;
+  margin-bottom:20px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  text-align:center;
+
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.8s, transform 0.8s;
+}
+
+section.show {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* 抽籤盒 */
+.box {
+  margin:20px auto;
+  width:260px;
+  height:150px;
+  background:#f9efe4;
+  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:28px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
   transition:0.3s;
 }
 
-button {
+/* 按鈕（跟履歷一致風格） */
+.draw-btn {
+  margin-top:15px;
   padding:10px 20px;
-  font-size:18px;
+  font-size:16px;
   border:none;
-  border-radius:10px;
+  border-radius:8px;
   background:#a56a46;
   color:white;
   cursor:pointer;
 }
 
-button:hover {
-  opacity:0.8;
+.draw-btn:hover {
+  opacity:0.85;
 }
 
-/* 🎲 抽籤動畫 */
+/* 🎲 動畫 */
 .shake {
-  animation: shake 0.6s infinite;
+  animation:shake 0.6s infinite;
 }
 
 @keyframes shake {
@@ -58,6 +113,11 @@ button:hover {
   50% {transform: rotate(-3deg);}
   75% {transform: rotate(2deg);}
   100% {transform: rotate(0deg);}
+}
+
+/* RWD */
+@media(max-width:600px){
+  nav{flex-direction:column; align-items:flex-start;}
 }
 </style>
 </head>
@@ -73,13 +133,22 @@ button:hover {
   <button id="langToggle">EN</button>
 </nav>
 
-<h1>🍀 每日運氣抽籤</h1>
+<h1 id="title">每日運氣</h1>
 
-<div id="result" class="box">點擊抽籤</div>
+<div class="container">
 
-<button onclick="draw()">抽籤</button>
+  <section id="fortuneSection">
+    <h2 id="fortuneTitle">今日運勢</h2>
+
+    <div id="result" class="box">點擊抽籤</div>
+
+    <button class="draw-btn" onclick="draw()">抽籤</button>
+  </section>
+
+</div>
 
 <script>
+/* 抽籤資料 */
 const fortunes = [
   {text:"🎉 大吉", color:"#ffcc00"},
   {text:"😊 中吉", color:"#ffd966"},
@@ -91,7 +160,6 @@ const fortunes = [
 function draw(){
   const box = document.getElementById("result");
 
-  // 開始動畫
   box.classList.add("shake");
   box.textContent = "抽籤中...";
 
@@ -102,8 +170,45 @@ function draw(){
     box.classList.remove("shake");
     box.textContent = result.text;
     box.style.background = result.color;
-  }, 1500);
+  }, 1200);
 }
+
+/* 淡入動畫（沿用履歷） */
+const sections = document.querySelectorAll("section");
+
+function fadeIn(){
+  sections.forEach(s=>{
+    if(s.getBoundingClientRect().top < window.innerHeight * 0.9){
+      s.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', fadeIn);
+fadeIn();
+
+/* 中英切換（簡化版） */
+let isZh = true;
+const title = document.getElementById("title");
+const fortuneTitle = document.getElementById("fortuneTitle");
+const langToggle = document.getElementById("langToggle");
+
+langToggle.onclick = () => {
+  if(isZh){
+    title.textContent = "Daily Fortune";
+    fortuneTitle.textContent = "Today's Luck";
+    langToggle.textContent = "中文";
+  }else{
+    title.textContent = "每日運氣";
+    fortuneTitle.textContent = "今日運勢";
+    langToggle.textContent = "EN";
+  }
+  isZh = !isZh;
+};
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
