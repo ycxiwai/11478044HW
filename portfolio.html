@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>歡迎來到劉耀鍵的網站</title>
+<title>專業履歷</title>
 
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
@@ -12,60 +12,24 @@ body {
   font-family:'Noto Sans TC',Arial,sans-serif;
   background:#fdf6e3;
   color:#3e3a36;
+}
+
+nav {
   display:flex;
-  justify-content:center;
+  justify-content:space-between;
   align-items:center;
-  height:100vh;
-}
-
-.container {
-  max-width:600px;
-  width:90%;
-}
-
-h1 {
-  text-align:center;
-  color:#a56a46;
-  margin-bottom:30px;
-}
-
-.card {
-  background:#fff8f0;
-  padding:20px;
-  border-radius:12px;
-  margin-bottom:20px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
-  text-align:center;
-}
-
-.card h2 {
-  color:#b2734f;
-  margin-bottom:10px;
-}
-
-.card p {
-  margin-bottom:15px;
-}
-
-.btn {
+  background:#f5e6d3;
   padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  background:#a56a46;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
 }
 
-.btn:hover {
-  background:#d28c6d;
+nav .links a {
+  margin-right:15px;
+  text-decoration:none;
+  color:#a56a46;
+  font-weight:bold;
 }
 
 #langToggle {
-  position:absolute;
-  top:10px;
-  right:10px;
   background:#a56a46;
   color:#fff;
   border:none;
@@ -73,34 +37,108 @@ h1 {
   border-radius:5px;
   cursor:pointer;
 }
+
+.container {
+  max-width:900px;
+  margin:30px auto;
+  padding:0 15px;
+}
+
+section {
+  background:#fff8f0;
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.8s, transform 0.8s;
+}
+
+section.show {
+  opacity:1;
+  transform:translateY(0);
+}
+
+h1 {
+  text-align:center;
+  margin-bottom:30px;
+  color:#a56a46;
+}
+
+h2 {
+  color:#b2734f;
+  margin-bottom:10px;
+}
+
+ul {
+  list-style:disc inside;
+}
+
+@media(max-width:600px){
+  nav{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<button id="langToggle">EN</button>
+<nav>
+  <div class="links">
+    <a id="navHome" href="index.html">首頁</a>
+    <a id="navLife" href="life.html">生活興趣</a>
+    <a id="navFortune" href="fortune.html">每日運氣</a>
+  </div>
+  <button id="langToggle">EN</button>
+</nav>
+
+<h1 id="title">專業履歷</h1>
 
 <div class="container">
 
-  <h1 id="title">歡迎來到劉耀鍵的網站</h1>
+  <section id="about">
+    <h2 id="aboutTitle">關於我</h2>
+    <p id="aboutDesc">碩士生，對前端與資料分析有興趣</p>
+  </section>
 
-  <div class="card">
-    <h2 id="workTitle">💻 專業履歷</h2>
-    <p id="workDesc">技能、專案、經歷</p>
-    <button id="workBtn" class="btn" onclick="location.href='portfolio.html'">進入</button>
-  </div>
+  <section id="skills">
+    <h2 id="skillsTitle">技能</h2>
 
-  <div class="card">
-    <h2 id="lifeTitle">🎸 生活興趣</h2>
-    <p id="lifeDesc">音樂、旅行、攝影</p>
-    <button id="lifeBtn" class="btn" onclick="location.href='life.html'">進入</button>
-  </div>
+    <ul id="skillsList">
+      <li>HTML / CSS / JavaScript</li>
+      <li>RWD 響應式設計</li>
+      <li>Git / GitHub 版本控制</li>
+    </ul>
+  </section>
 
-  <div class="card">
-    <h2 id="fortuneTitle">🍀 每日運氣</h2>
-    <p id="fortuneDesc">抽一支籤看看今天運氣如何</p>
-    <button id="fortuneBtn" class="btn" onclick="location.href='fortune.html'">開始抽籤</button>
-  </div>
+  <section id="portfolio">
+    <h2 id="portfolioTitle">作品集</h2>
+
+    <ul id="portfolioList">
+      <li>個人網站設計與實作</li>
+      <li>資料可視化專案</li>
+      <li>前端互動遊戲範例</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2 id="contactTitle">聯絡我</h2>
+
+    <p>Email:
+      <a href="mailto:owo42958@gmail.com">
+        owo42958@gmail.com
+      </a>
+    </p>
+
+    <p>GitHub:
+      <a href="https://github.com/ycxiwai">
+        github.com/ycxiwai
+      </a>
+    </p>
+  </section>
 
 </div>
 
@@ -109,55 +147,99 @@ let isZh = true;
 
 const title = document.getElementById("title");
 
-const workTitle = document.getElementById("workTitle");
-const workDesc = document.getElementById("workDesc");
-const workBtn = document.getElementById("workBtn");
+const navHome = document.getElementById("navHome");
+const navLife = document.getElementById("navLife");
+const navFortune = document.getElementById("navFortune");
 
-const lifeTitle = document.getElementById("lifeTitle");
-const lifeDesc = document.getElementById("lifeDesc");
-const lifeBtn = document.getElementById("lifeBtn");
+const aboutTitle = document.getElementById("aboutTitle");
+const aboutDesc = document.getElementById("aboutDesc");
 
-const fortuneTitle = document.getElementById("fortuneTitle");
-const fortuneDesc = document.getElementById("fortuneDesc");
-const fortuneBtn = document.getElementById("fortuneBtn");
+const skillsTitle = document.getElementById("skillsTitle");
+const skillsList = document.getElementById("skillsList");
+
+const portfolioTitle = document.getElementById("portfolioTitle");
+const portfolioList = document.getElementById("portfolioList");
+
+const contactTitle = document.getElementById("contactTitle");
 
 const langToggle = document.getElementById("langToggle");
+
+const sections = document.querySelectorAll("section");
+
+function fadeIn(){
+  sections.forEach(s=>{
+    if(s.getBoundingClientRect().top < window.innerHeight * 0.9){
+      s.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', fadeIn);
+fadeIn();
 
 langToggle.onclick = () => {
 
   if(isZh){
 
-    title.textContent = "Welcome to Yao-Chien Liu's Website";
+    navHome.textContent = "Home";
+    navLife.textContent = "Life";
+    navFortune.textContent = "Fortune";
 
-    workTitle.textContent = "💻 Professional Resume";
-    workDesc.textContent = "Skills, Projects, Experience";
-    workBtn.textContent = "Enter";
+    title.textContent = "Professional Resume";
 
-    lifeTitle.textContent = "🎸 Life & Hobbies";
-    lifeDesc.textContent = "Music, Travel, Photography";
-    lifeBtn.textContent = "Enter";
+    aboutTitle.textContent = "About Me";
+    aboutDesc.textContent =
+      "Master student interested in front-end & data analysis";
 
-    fortuneTitle.textContent = "🍀 Daily Fortune";
-    fortuneDesc.textContent = "Draw a fortune for today";
-    fortuneBtn.textContent = "Start";
+    skillsTitle.textContent = "Skills";
+
+    skillsList.innerHTML = `
+      <li>HTML / CSS / JavaScript</li>
+      <li>Responsive Web Design</li>
+      <li>Git / GitHub Version Control</li>
+    `;
+
+    portfolioTitle.textContent = "Portfolio";
+
+    portfolioList.innerHTML = `
+      <li>Personal Website Design</li>
+      <li>Data Visualization Projects</li>
+      <li>Interactive Front-end Games</li>
+    `;
+
+    contactTitle.textContent = "Contact Me";
 
     langToggle.textContent = "中文";
 
   } else {
 
-    title.textContent = "歡迎來到劉耀鍵的網站";
+    navHome.textContent = "首頁";
+    navLife.textContent = "生活興趣";
+    navFortune.textContent = "每日運氣";
 
-    workTitle.textContent = "💻 專業履歷";
-    workDesc.textContent = "技能、專案、經歷";
-    workBtn.textContent = "進入";
+    title.textContent = "專業履歷";
 
-    lifeTitle.textContent = "🎸 生活興趣";
-    lifeDesc.textContent = "音樂、旅行、攝影";
-    lifeBtn.textContent = "進入";
+    aboutTitle.textContent = "關於我";
+    aboutDesc.textContent =
+      "碩士生，對前端與資料分析有興趣";
 
-    fortuneTitle.textContent = "🍀 每日運氣";
-    fortuneDesc.textContent = "抽一支籤看看今天運氣如何";
-    fortuneBtn.textContent = "開始抽籤";
+    skillsTitle.textContent = "技能";
+
+    skillsList.innerHTML = `
+      <li>HTML / CSS / JavaScript</li>
+      <li>RWD 響應式設計</li>
+      <li>Git / GitHub 版本控制</li>
+    `;
+
+    portfolioTitle.textContent = "作品集";
+
+    portfolioList.innerHTML = `
+      <li>個人網站設計與實作</li>
+      <li>資料可視化專案</li>
+      <li>前端互動遊戲範例</li>
+    `;
+
+    contactTitle.textContent = "聯絡我";
 
     langToggle.textContent = "EN";
   }
