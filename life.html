@@ -4,19 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生活興趣</title>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
-body {font-family:'Noto Sans TC',Arial,sans-serif; background:#fdf6e3; color:#3e3a36;}
 
-nav {display:flex; justify-content:space-between; align-items:center; background:#f5e6d3; padding:10px 20px;}
-nav .links a {margin-right:15px; text-decoration:none; color:#a56a46; font-weight:bold;}
-#langToggle {background:#a56a46; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;}
-.container {max-width:900px; margin:30px auto; padding:0 15px;}
-.card {background:#fff8f0; padding:20px; margin-bottom:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.08);}
-h1{text-align:center; margin-bottom:30px; color:#a56a46;}
-h2{color:#b2734f; margin-bottom:10px;}
-h3{color:#8c5a3c; margin:10px 0;}
-img{width:100%; border-radius:10px; display:block;}
+body {
+  font-family:'Noto Sans TC',Arial,sans-serif;
+  background:#fdf6e3;
+  color:#3e3a36;
+}
+
+nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f5e6d3;
+  padding:10px 20px;
+}
+
+nav .links a {
+  margin-right:15px;
+  text-decoration:none;
+  color:#a56a46;
+  font-weight:bold;
+}
+
+#langToggle {
+  background:#a56a46;
+  color:#fff;
+  border:none;
+  padding:5px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.container {
+  max-width:900px;
+  margin:30px auto;
+  padding:0 15px;
+}
+
+.card {
+  background:#fff8f0;
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+h1 {
+  text-align:center;
+  margin-bottom:30px;
+  color:#a56a46;
+}
+
+h2 {
+  color:#b2734f;
+  margin-bottom:10px;
+}
+
+h3 {
+  color:#8c5a3c;
+  margin:10px 0;
+}
+
+img {
+  width:100%;
+  border-radius:10px;
+  display:block;
+}
 
 /* 四宮格 */
 .grid-4 {
@@ -42,19 +98,28 @@ img{width:100%; border-radius:10px; display:block;}
   font-size:20px;
   z-index:10;
 }
+
 .grid-4 .prev { left:5px; }
 .grid-4 .next { right:5px; }
 
+@media(max-width:600px){
+  nav{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <nav>
   <div class="links">
-    <a href="index.html">首頁</a>
-    <a href="portfolio.html">專業履歷</a>
-    <a href="fortune.html">每日運氣</a>
+    <a id="navHome" href="index.html">首頁</a>
+    <a id="navPortfolio" href="portfolio.html">專業履歷</a>
+    <a id="navFortune" href="fortune.html">每日運氣</a>
   </div>
+
   <button id="langToggle">EN</button>
 </nav>
 
@@ -63,68 +128,191 @@ img{width:100%; border-radius:10px; display:block;}
 <div class="container">
 
   <div class="card">
+
     <h2 id="travel">✈️ 旅行</h2>
-    <p id="travelDesc">探索不同文化</p>
-    <h3>🏝️ 小琉球</h3>
+
+    <p id="travelDesc">
+      探索不同文化
+    </p>
+
+    <h3 id="liuqiuTitle">🏝️ 小琉球</h3>
+
     <div class="grid-4" id="liuqiu-grid">
       <button class="arrow prev" onclick="prevSlide('liuqiu')">❮</button>
       <button class="arrow next" onclick="nextSlide('liuqiu')">❯</button>
     </div>
+
   </div>
 
   <div class="card">
+
     <h2 id="photo">📷 攝影</h2>
-    <p id="photoDesc">記錄生活與旅行的瞬間</p>
-    <h3>📷 攝影</h3>
+
+    <p id="photoDesc">
+      記錄生活與旅行的瞬間
+    </p>
+
+    <h3 id="photoTitle">📷 攝影作品</h3>
+
     <div class="grid-4" id="photo-grid">
       <button class="arrow prev" onclick="prevSlide('photo')">❮</button>
       <button class="arrow next" onclick="nextSlide('photo')">❯</button>
     </div>
+
   </div>
 
 </div>
 
 <script>
-// 圖片資料
+/* 圖片資料 */
 const images = {
-  liuqiu: ["images/liuqiu1.jpg","images/liuqiu2.jpg","images/liuqiu3.jpg","images/liuqiu4.jpg",
-           "images/liuqiu5.jpg","images/liuqiu6.jpg","images/liuqiu7.jpg","images/liuqiu8.jpg"],
-  photo: ["images/photo1.jpg","images/photo2.jpg","images/photo3.jpg","images/photo4.jpg",
-          "images/photo5.jpg","images/photo6.jpg","images/photo7.jpg","images/photo8.jpg"]
+
+  liuqiu: [
+    "images/liuqiu1.jpg",
+    "images/liuqiu2.jpg",
+    "images/liuqiu3.jpg",
+    "images/liuqiu4.jpg",
+    "images/liuqiu5.jpg",
+    "images/liuqiu6.jpg",
+    "images/liuqiu7.jpg",
+    "images/liuqiu8.jpg"
+  ],
+
+  photo: [
+    "images/photo1.jpg",
+    "images/photo2.jpg",
+    "images/photo3.jpg",
+    "images/photo4.jpg",
+    "images/photo5.jpg",
+    "images/photo6.jpg",
+    "images/photo7.jpg",
+    "images/photo8.jpg"
+  ]
 };
 
-let currentIndex = {liuqiu:0, photo:0};
+let currentIndex = {
+  liuqiu:0,
+  photo:0
+};
+
 const perSlide = 4;
 
 function showSlide(type){
-  const grid = document.getElementById(type+"-grid");
-  // 先清空除了箭頭的元素
+
+  const grid = document.getElementById(type + "-grid");
+
   Array.from(grid.children).forEach(c => {
-    if(!c.classList.contains('arrow')) c.remove();
+    if(!c.classList.contains('arrow')){
+      c.remove();
+    }
   });
-  // 新增四張圖片
+
   for(let i=0;i<perSlide;i++){
-    const idx = (currentIndex[type]+i)%images[type].length;
+
+    const idx =
+      (currentIndex[type] + i) % images[type].length;
+
     const img = document.createElement("img");
+
     img.src = images[type][idx];
-    // 插入在箭頭後面
-    grid.insertBefore(img, grid.querySelector('.next'));
+
+    grid.insertBefore(
+      img,
+      grid.querySelector('.next')
+    );
   }
 }
 
 function nextSlide(type){
-  currentIndex[type] = (currentIndex[type]+perSlide) % images[type].length;
+
+  currentIndex[type] =
+    (currentIndex[type] + perSlide)
+    % images[type].length;
+
   showSlide(type);
 }
 
 function prevSlide(type){
-  currentIndex[type] = (currentIndex[type]-perSlide+images[type].length) % images[type].length;
+
+  currentIndex[type] =
+    (currentIndex[type] - perSlide + images[type].length)
+    % images[type].length;
+
   showSlide(type);
 }
 
-// 初始化
+/* 初始化 */
 showSlide('liuqiu');
 showSlide('photo');
+
+/* ===== 中英切換 ===== */
+
+let isZh = true;
+
+const title = document.getElementById("title");
+
+const navHome = document.getElementById("navHome");
+const navPortfolio = document.getElementById("navPortfolio");
+const navFortune = document.getElementById("navFortune");
+
+const travel = document.getElementById("travel");
+const travelDesc = document.getElementById("travelDesc");
+
+const photo = document.getElementById("photo");
+const photoDesc = document.getElementById("photoDesc");
+
+const liuqiuTitle = document.getElementById("liuqiuTitle");
+const photoTitle = document.getElementById("photoTitle");
+
+const langToggle = document.getElementById("langToggle");
+
+langToggle.onclick = () => {
+
+  if(isZh){
+
+    navHome.textContent = "Home";
+    navPortfolio.textContent = "Resume";
+    navFortune.textContent = "Fortune";
+
+    title.textContent = "Life & Hobbies";
+
+    travel.textContent = "✈️ Travel";
+    travelDesc.textContent =
+      "Explore different cultures";
+
+    photo.textContent = "📷 Photography";
+    photoDesc.textContent =
+      "Capture moments of life and travel";
+
+    liuqiuTitle.textContent = "🏝️ Liuqiu Island";
+    photoTitle.textContent = "📷 Photography Works";
+
+    langToggle.textContent = "中文";
+
+  } else {
+
+    navHome.textContent = "首頁";
+    navPortfolio.textContent = "專業履歷";
+    navFortune.textContent = "每日運氣";
+
+    title.textContent = "生活興趣";
+
+    travel.textContent = "✈️ 旅行";
+    travelDesc.textContent =
+      "探索不同文化";
+
+    photo.textContent = "📷 攝影";
+    photoDesc.textContent =
+      "記錄生活與旅行的瞬間";
+
+    liuqiuTitle.textContent = "🏝️ 小琉球";
+    photoTitle.textContent = "📷 攝影作品";
+
+    langToggle.textContent = "EN";
+  }
+
+  isZh = !isZh;
+};
 </script>
 
 </body>
