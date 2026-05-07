@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -14,7 +14,6 @@ body {
   color:#3e3a36;
 }
 
-/* 導覽列（完全沿用） */
 nav {
   display:flex;
   justify-content:space-between;
@@ -39,21 +38,18 @@ nav .links a {
   cursor:pointer;
 }
 
-/* 主容器 */
 .container {
   max-width:900px;
   margin:30px auto;
   padding:0 15px;
 }
 
-/* 標題 */
 h1 {
   text-align:center;
   margin-bottom:30px;
   color:#a56a46;
 }
 
-/* 卡片 section（統一風格） */
 section {
   background:#fff8f0;
   padding:30px;
@@ -72,7 +68,6 @@ section.show {
   transform:translateY(0);
 }
 
-/* 抽籤盒 */
 .box {
   margin:20px auto;
   width:260px;
@@ -86,7 +81,6 @@ section.show {
   transition:0.3s;
 }
 
-/* 按鈕（跟履歷一致風格） */
 .draw-btn {
   margin-top:15px;
   padding:10px 20px;
@@ -102,12 +96,12 @@ section.show {
   opacity:0.85;
 }
 
-/* 🎲 動畫 */
 .shake {
   animation:shake 0.6s infinite;
 }
 
 @keyframes shake {
+
   0% {transform: rotate(0deg);}
   25% {transform: rotate(3deg);}
   50% {transform: rotate(-3deg);}
@@ -115,9 +109,12 @@ section.show {
   100% {transform: rotate(0deg);}
 }
 
-/* RWD */
 @media(max-width:600px){
-  nav{flex-direction:column; align-items:flex-start;}
+
+  nav{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 }
 </style>
 </head>
@@ -125,12 +122,15 @@ section.show {
 <body>
 
 <nav>
+
   <div class="links">
-    <a href="index.html">首頁</a>
-    <a href="portfolio.html">專業履歷</a>
-    <a href="life.html">生活興趣</a>
+    <a id="navHome" href="index.html">首頁</a>
+    <a id="navPortfolio" href="portfolio.html">專業履歷</a>
+    <a id="navLife" href="life.html">生活興趣</a>
   </div>
+
   <button id="langToggle">EN</button>
+
 </nav>
 
 <h1 id="title">每日運氣</h1>
@@ -138,18 +138,23 @@ section.show {
 <div class="container">
 
   <section id="fortuneSection">
+
     <h2 id="fortuneTitle">今日運勢</h2>
 
-    <div id="result" class="box">點擊抽籤</div>
+    <div id="result" class="box">
+      點擊抽籤
+    </div>
 
-    <button class="draw-btn" onclick="draw()">抽籤</button>
+    <button id="drawBtn" class="draw-btn" onclick="draw()">
+      抽籤
+    </button>
+
   </section>
 
 </div>
 
 <script>
-/* 抽籤資料 */
-const fortunes = [
+const fortunesZh = [
   {text:"🎉 大吉", color:"#ffcc00"},
   {text:"😊 中吉", color:"#ffd966"},
   {text:"🙂 小吉", color:"#fff2cc"},
@@ -157,58 +162,131 @@ const fortunes = [
   {text:"😢 小凶", color:"#d9d9d9"}
 ];
 
+const fortunesEn = [
+  {text:"🎉 Excellent Luck", color:"#ffcc00"},
+  {text:"😊 Good Luck", color:"#ffd966"},
+  {text:"🙂 Small Luck", color:"#fff2cc"},
+  {text:"😐 Normal", color:"#e0e0e0"},
+  {text:"😢 Bad Luck", color:"#d9d9d9"}
+];
+
+let isZh = true;
+
 function draw(){
+
   const box = document.getElementById("result");
 
   box.classList.add("shake");
-  box.textContent = "抽籤中...";
+
+  box.textContent =
+    isZh ? "抽籤中..." : "Drawing...";
 
   setTimeout(() => {
-    const random = Math.floor(Math.random() * fortunes.length);
-    const result = fortunes[random];
+
+    const list =
+      isZh ? fortunesZh : fortunesEn;
+
+    const random =
+      Math.floor(Math.random() * list.length);
+
+    const result = list[random];
 
     box.classList.remove("shake");
+
     box.textContent = result.text;
+
     box.style.background = result.color;
+
   }, 1200);
 }
 
-/* 淡入動畫（沿用履歷） */
+/* 淡入動畫 */
+
 const sections = document.querySelectorAll("section");
 
 function fadeIn(){
+
   sections.forEach(s=>{
-    if(s.getBoundingClientRect().top < window.innerHeight * 0.9){
+
+    if(s.getBoundingClientRect().top
+      < window.innerHeight * 0.9){
+
       s.classList.add('show');
     }
   });
 }
 
 window.addEventListener('scroll', fadeIn);
+
 fadeIn();
 
-/* 中英切換（簡化版） */
-let isZh = true;
+/* 中英切換 */
+
 const title = document.getElementById("title");
-const fortuneTitle = document.getElementById("fortuneTitle");
-const langToggle = document.getElementById("langToggle");
+
+const fortuneTitle =
+  document.getElementById("fortuneTitle");
+
+const langToggle =
+  document.getElementById("langToggle");
+
+const drawBtn =
+  document.getElementById("drawBtn");
+
+const resultBox =
+  document.getElementById("result");
+
+const navHome =
+  document.getElementById("navHome");
+
+const navPortfolio =
+  document.getElementById("navPortfolio");
+
+const navLife =
+  document.getElementById("navLife");
 
 langToggle.onclick = () => {
+
   if(isZh){
+
+    navHome.textContent = "Home";
+    navPortfolio.textContent = "Resume";
+    navLife.textContent = "Life";
+
     title.textContent = "Daily Fortune";
-    fortuneTitle.textContent = "Today's Luck";
+
+    fortuneTitle.textContent =
+      "Today's Luck";
+
+    drawBtn.textContent = "Draw";
+
+    if(resultBox.textContent === "點擊抽籤"){
+      resultBox.textContent = "Click to Draw";
+    }
+
     langToggle.textContent = "中文";
-  }else{
+
+  } else {
+
+    navHome.textContent = "首頁";
+    navPortfolio.textContent = "專業履歷";
+    navLife.textContent = "生活興趣";
+
     title.textContent = "每日運氣";
+
     fortuneTitle.textContent = "今日運勢";
+
+    drawBtn.textContent = "抽籤";
+
+    if(resultBox.textContent === "Click to Draw"){
+      resultBox.textContent = "點擊抽籤";
+    }
+
     langToggle.textContent = "EN";
   }
+
   isZh = !isZh;
 };
-</script>
-
-</body>
-</html>
 </script>
 
 </body>
